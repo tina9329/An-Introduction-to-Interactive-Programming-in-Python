@@ -1,0 +1,54 @@
+#the game of stopwatch
+import simplegui
+time=0
+x=0
+y=0
+stop=False
+   
+def format(t):
+    D=t%10
+    C=(t//10)%10
+    B=(t//100)%6
+    A=(t//100)//6
+    return str(A) + ":" + str(B) + str(C) + "." + str(D)
+
+def start():
+    timer.start()
+    global stop
+    stop=True
+    
+def stop():
+    global x, y, time, stop
+    if (stop==True):
+        timer.stop()
+        y=y+1
+        if (time%10 == 0):
+            x=x+1
+        stop=False
+    else:
+        pass
+    
+def reset():
+    timer.stop()
+    global x, y, time
+    time=0
+    x=0
+    y=0
+    
+def tick():
+    global time
+    time = time + 1
+
+def draw_handler(canvas):
+    canvas.draw_text(format(time),[90,120],50,"red")
+    canvas.draw_text(str(x)+"/"+str(y),[230,40],30,"red")
+    
+
+frame = simplegui.create_frame("stopwatch",300, 200)
+timer = simplegui.create_timer(100, tick)
+frame.add_button("Start", start)
+frame.add_button("Stop", stop)
+frame.add_button("Reset", reset)
+frame.set_draw_handler(draw_handler)
+
+frame.start()
